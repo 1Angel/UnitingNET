@@ -5,6 +5,6 @@ namespace UnitingBE.Entities
 {
     public class AppUser: IdentityUser
     {
-        public List<Community> communities { get; set; }
+       // public List<Community> communities { get; set; }
     }
 }

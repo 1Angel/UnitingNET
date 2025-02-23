@@ -2,10 +2,11 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using UnitingBE.Database;
+using UnitingBE.Dtos.Communities;
 
 namespace UnitingBE.Features.Communities.GetCommunityById
 {
-    public class GetCommunityByIdHandler: IRequestHandler<GetCommunityByIdRequest, CommunityResponse>
+    public class GetCommunityByIdHandler: IRequestHandler<GetCommunityByIdRequest, CommunityResponseDto>
     {
         private readonly AppDBContext _context;
         private readonly IMapper _mapper;
@@ -15,10 +16,10 @@ namespace UnitingBE.Features.Communities.GetCommunityById
             _mapper = mapper;
         }
 
-        public async Task<CommunityResponse> Handle(GetCommunityByIdRequest request, CancellationToken cancellationToken)
+        public async Task<CommunityResponseDto> Handle(GetCommunityByIdRequest request, CancellationToken cancellationToken)
         {
-            var community = await _context.communities.Where(x => x.Id == request.communityId).FirstOrDefaultAsync();
-            var result =  _mapper.Map<CommunityResponse>(community);
+            var community = await _context.communities.Include(x=>x.posts).Where(x => x.Id == request.communityId).FirstOrDefaultAsync();
+            var result =  _mapper.Map<CommunityResponseDto>(community);
             return result;  
         }
     }

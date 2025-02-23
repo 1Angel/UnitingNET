@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using UnitingBE.Dtos.Communities;
 using UnitingBE.Features.Communities;
 using UnitingBE.Features.Communities.CreateCommunity;
 using UnitingBE.Features.Communities.GetCommunities;
@@ -15,6 +16,8 @@ namespace UnitingBE.Mappers
             CreateMap<Community, AllCommunitiesRequest>();
 
             CreateMap<Community, CommunityResponse>();
+
+            CreateMap<Community, CommunityResponseDto>();
         }
     }
 }

@@ -6,6 +6,7 @@ using UnitingBE.Database;
 using UnitingBE.Entities;
 using UnitingBE.Features.Auth.Register;
 using UnitingBE.Features.Communities.CreateCommunity;
+using UnitingBE.Features.posts.CreatePost;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,9 +32,7 @@ builder.Services.AddMediatR(options=>options.RegisterServicesFromAssemblies(Asse
 //fluentvalidation
 builder.Services.AddScoped<IValidator<CreateCommunityRequest>, CreateCommunityValidator>();
 builder.Services.AddScoped<IValidator<RegisterUserRequest>, RegisterUserValidator>();
-
-builder.Services.AddScoped<CreateCommunityHandler>();
-builder.Services.AddScoped<RegisterUserHandler>();  
+builder.Services.AddScoped <IValidator<CreatePostRequest>, CreatePostValidator>();
 
 
 builder.Services.AddControllers();

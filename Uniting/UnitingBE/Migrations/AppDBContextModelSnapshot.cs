@@ -242,7 +242,7 @@ namespace UnitingBE.Migrations
 
                     b.HasIndex("CommunityId");
 
-                    b.ToTable("Post");
+                    b.ToTable("posts");
                 });
 
             modelBuilder.Entity("UnitingBE.Features.Communities.Community", b =>
@@ -252,10 +252,6 @@ namespace UnitingBE.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -269,8 +265,6 @@ namespace UnitingBE.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
 
                     b.ToTable("communities");
                 });
@@ -335,22 +329,6 @@ namespace UnitingBE.Migrations
                         .IsRequired();
 
                     b.Navigation("Community");
-                });
-
-            modelBuilder.Entity("UnitingBE.Features.Communities.Community", b =>
-                {
-                    b.HasOne("UnitingBE.Entities.AppUser", "user")
-                        .WithMany("communities")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
-                });
-
-            modelBuilder.Entity("UnitingBE.Entities.AppUser", b =>
-                {
-                    b.Navigation("communities");
                 });
 
             modelBuilder.Entity("UnitingBE.Features.Communities.Community", b =>

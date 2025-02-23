@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using UnitingBE.Common;
+using UnitingBE.Dtos.Communities;
 using UnitingBE.Features.Communities.CreateCommunity;
 using UnitingBE.Features.Communities.GetCommunities;
 using UnitingBE.Features.Communities.GetCommunityById;
@@ -32,7 +33,7 @@ namespace UnitingBE.Features.Communities
         }
 
         [HttpGet("{communityId:int}")]
-        public async Task<CommunityResponse> GetById([FromRoute] int communityId)
+        public async Task<CommunityResponseDto> GetById([FromRoute] int communityId)
         {
             var request = new GetCommunityByIdRequest(communityId);
             var result = await mediator.Send(request);

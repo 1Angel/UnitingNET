@@ -28,8 +28,7 @@ namespace UnitingBE.Features.Communities.CreateCommunity
             Community newCommunity = new Community
             {
                 Name = request.Name,
-                Description = request.Description,
-                AppUserId = new Guid().ToString(),
+                Description = request.Description
             };
 
             var result = _context.communities.AddAsync(newCommunity);
