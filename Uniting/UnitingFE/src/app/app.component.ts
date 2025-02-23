@@ -9,6 +9,4 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'UnitingFE';
-  jij = signal<string>('');
-  jife = "hola";
 }
