@@ -12,7 +12,7 @@ using UnitingBE.Database;
 namespace UnitingBE.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20250223195840_first")]
+    [Migration("20250224023345_first")]
     partial class first
     {
         /// <inheritdoc />

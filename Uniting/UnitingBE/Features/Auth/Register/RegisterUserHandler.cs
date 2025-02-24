@@ -42,7 +42,11 @@ namespace UnitingBE.Features.Auth.Register
             };
 
             var create = await _userManager.CreateAsync(newUser, request.password);
-            if (!create.Succeeded)
+            if (create.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+            }
+            else
             {
                 return Results.BadRequest(create.Errors.ToList());
             }

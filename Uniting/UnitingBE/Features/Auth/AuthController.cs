@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UnitingBE.Features.Auth.Login;
 using UnitingBE.Features.Auth.Register;
 
 namespace UnitingBE.Features.Auth
@@ -19,6 +21,27 @@ namespace UnitingBE.Features.Auth
         {
             var result = await _mediator.Send(registerUser);
             return Ok(result);  
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] LoginUserRequest request)
+        {
+            var result = await _mediator.Send(request);
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("hola")]
+        public async Task<string> Hola()
+        {
+            return "hola si vez esto estas  autenticado";
+        }
+
+        [Authorize(Roles ="admin")]
+        [HttpGet("admin")]
+        public async Task<string> AdminOnly()
+        {
+            return "si vez esto sos admin";
         }
     }
 }
