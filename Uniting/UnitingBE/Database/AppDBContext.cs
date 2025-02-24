@@ -11,4 +11,22 @@ public class AppDBContext: IdentityDbContext<AppUser>
 
     public DbSet<Community> communities { get; set; }
     public DbSet<Post> posts { get; set; }
+
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<Community>()
+            .HasOne(x=>x.user)
+            .WithMany(x=>x.communities)
+            .HasForeignKey(x=>x.AppUserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<Post>()
+            .HasOne(x=>x.user)
+            .WithMany(x=>x.posts)
+            .HasForeignKey(x=>x.AppUserId)
+            .OnDelete(DeleteBehavior.NoAction);
+    
+        base.OnModelCreating(builder);
+    }
 }

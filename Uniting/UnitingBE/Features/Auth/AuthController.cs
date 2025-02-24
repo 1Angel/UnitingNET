@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UnitingBE.Common;
 using UnitingBE.Features.Auth.Login;
 using UnitingBE.Features.Auth.Register;
 
@@ -11,9 +12,11 @@ namespace UnitingBE.Features.Auth
     public class AuthController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public AuthController(IMediator mediator)
+        private readonly CurrentUser _currentUser;
+        public AuthController(IMediator mediator, CurrentUser currentUser)
         {
             _mediator = mediator;
+            _currentUser = currentUser;
         }
 
         [HttpPost("register")]
@@ -34,7 +37,8 @@ namespace UnitingBE.Features.Auth
         [HttpGet("hola")]
         public async Task<string> Hola()
         {
-            return "hola si vez esto estas  autenticado";
+            var userId = _currentUser.GetUserId();
+            return $"hola si vez esto estas  autenticado tu id es {userId}";
         }
 
         [Authorize(Roles ="admin")]

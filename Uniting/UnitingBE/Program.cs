@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text;
+using UnitingBE.Common;
 using UnitingBE.Database;
 using UnitingBE.Entities;
 using UnitingBE.Features.Auth.Register;
@@ -26,6 +27,8 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 //identity
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
 
+//current user class
+builder.Services.AddScoped<CurrentUser>();
 
 //authentication
 builder.Services.AddAuthentication(options =>

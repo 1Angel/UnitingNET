@@ -18,7 +18,12 @@ namespace UnitingBE.Features.Communities.GetCommunityById
 
         public async Task<CommunityResponseDto> Handle(GetCommunityByIdRequest request, CancellationToken cancellationToken)
         {
-            var community = await _context.communities.Include(x=>x.posts).Where(x => x.Id == request.communityId).FirstOrDefaultAsync();
+            var community = await _context.communities
+                .Include(x=>x.posts)
+                .ThenInclude(x=>x.user)
+                .Include(x=>x.user)
+                .Where(x => x.Id == request.communityId)
+                .FirstOrDefaultAsync();
             var result =  _mapper.Map<CommunityResponseDto>(community);
             return result;  
         }

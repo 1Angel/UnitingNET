@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using MediatR;
+using UnitingBE.Common;
 using UnitingBE.Database;
 
 namespace UnitingBE.Features.Communities.CreateCommunity
@@ -10,11 +11,13 @@ namespace UnitingBE.Features.Communities.CreateCommunity
         private readonly IValidator<CreateCommunityRequest> validator;
         private readonly AppDBContext _context;
         private readonly IMapper _mapper;
-        public CreateCommunityHandler(IValidator<CreateCommunityRequest> validator, AppDBContext context, IMapper mapper)
+        private readonly CurrentUser _currentUser;
+        public CreateCommunityHandler(IValidator<CreateCommunityRequest> validator, AppDBContext context, IMapper mapper, CurrentUser currentUser)
         {
             this.validator = validator;
             _context = context;
             _mapper = mapper;
+            _currentUser = currentUser;
         }
         public async Task<IResult> Handle(CreateCommunityRequest request, CancellationToken cancellationToken)
         {
@@ -28,7 +31,8 @@ namespace UnitingBE.Features.Communities.CreateCommunity
             Community newCommunity = new Community
             {
                 Name = request.Name,
-                Description = request.Description
+                Description = request.Description,
+                AppUserId = _currentUser.GetUserId(),
             };
 
             var result = _context.communities.AddAsync(newCommunity);
@@ -36,7 +40,7 @@ namespace UnitingBE.Features.Communities.CreateCommunity
 
             var response = _mapper.Map<CreateCommunityResponse>(result.Result.Entity);
 
-            return Results.Ok(response);
+            return Results.Ok();
         }
     }
 }

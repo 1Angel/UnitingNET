@@ -228,6 +228,10 @@ namespace UnitingBE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("CommunityId")
                         .HasColumnType("int");
 
@@ -239,6 +243,8 @@ namespace UnitingBE.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex("CommunityId");
 
@@ -253,6 +259,10 @@ namespace UnitingBE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -265,6 +275,8 @@ namespace UnitingBE.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("communities");
                 });
@@ -322,6 +334,12 @@ namespace UnitingBE.Migrations
 
             modelBuilder.Entity("UnitingBE.Entities.Post", b =>
                 {
+                    b.HasOne("UnitingBE.Entities.AppUser", "user")
+                        .WithMany("posts")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("UnitingBE.Features.Communities.Community", "Community")
                         .WithMany("posts")
                         .HasForeignKey("CommunityId")
@@ -329,6 +347,26 @@ namespace UnitingBE.Migrations
                         .IsRequired();
 
                     b.Navigation("Community");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("UnitingBE.Features.Communities.Community", b =>
+                {
+                    b.HasOne("UnitingBE.Entities.AppUser", "user")
+                        .WithMany("communities")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("UnitingBE.Entities.AppUser", b =>
+                {
+                    b.Navigation("communities");
+
+                    b.Navigation("posts");
                 });
 
             modelBuilder.Entity("UnitingBE.Features.Communities.Community", b =>

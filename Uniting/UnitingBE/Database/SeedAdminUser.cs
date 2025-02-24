@@ -20,7 +20,7 @@ namespace UnitingBE.Database
             var create = await userManager.CreateAsync(admin_user, "Admin01_");
             if (create.Succeeded)
             {
-                if(await roleManager.RoleExistsAsync(UserRoles.Admin) && await roleManager.RoleExistsAsync(UserRoles.User))
+                if (await roleManager.RoleExistsAsync(UserRoles.Admin) && await roleManager.RoleExistsAsync(UserRoles.User))
                 {
                     await userManager.AddToRoleAsync(admin_user, UserRoles.Admin);
                 }

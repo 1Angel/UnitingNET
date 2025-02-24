@@ -1,4 +1,5 @@
-﻿using UnitingBE.Dtos.Posts;
+﻿using UnitingBE.Dtos.Auth;
+using UnitingBE.Dtos.Posts;
 
 namespace UnitingBE.Dtos.Communities
 {
@@ -8,6 +9,7 @@ namespace UnitingBE.Dtos.Communities
         public string Name { get; set; }
         public string Description { get; set; }
         public List<PostResponseDto> posts { get; set; }
+        public UserDto User { get; set; }
         public DateTime createdDate { get; set; }
 
     }
