@@ -13,6 +13,7 @@ namespace UnitingBE.Entities
         public Community Community { get; set; }
         public string AppUserId { get; set; }
         public AppUser user { get; set; }
+        public List<Comment> comments { get; set; }
         public DateTime createdDate { get; set; } = DateTime.Now;
     }
 }

@@ -9,6 +9,7 @@ using UnitingBE.Common;
 using UnitingBE.Database;
 using UnitingBE.Entities;
 using UnitingBE.Features.Auth.Register;
+using UnitingBE.Features.Comments.CreateComment;
 using UnitingBE.Features.Communities.CreateCommunity;
 using UnitingBE.Features.posts.CreatePost;
 using UnitingBE.Infrastructure.Services;
@@ -68,7 +69,7 @@ builder.Services.AddMediatR(options=>options.RegisterServicesFromAssemblies(Asse
 builder.Services.AddScoped<IValidator<CreateCommunityRequest>, CreateCommunityValidator>();
 builder.Services.AddScoped<IValidator<RegisterUserRequest>, RegisterUserValidator>();
 builder.Services.AddScoped<IValidator<CreatePostRequest>, CreatePostValidator>();
-
+builder.Services.AddScoped<IValidator<CreateCommentRequest>, CreateCommentValidator>();
 
 //seed admin and roles
 SeedRoles.SeedRole(builder.Services.BuildServiceProvider()).Wait();

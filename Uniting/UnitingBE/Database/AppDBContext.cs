@@ -11,6 +11,7 @@ public class AppDBContext: IdentityDbContext<AppUser>
 
     public DbSet<Community> communities { get; set; }
     public DbSet<Post> posts { get; set; }
+    public DbSet<Comment> comments { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -26,6 +27,14 @@ public class AppDBContext: IdentityDbContext<AppUser>
             .WithMany(x=>x.posts)
             .HasForeignKey(x=>x.AppUserId)
             .OnDelete(DeleteBehavior.NoAction);
+
+
+        builder.Entity<Comment>()
+            .HasOne(x=>x.user)
+            .WithMany(x=>x.comments)
+            .HasForeignKey(x=>x.AppUserId)
+            .OnDelete(DeleteBehavior.NoAction);
+            
     
         base.OnModelCreating(builder);
     }

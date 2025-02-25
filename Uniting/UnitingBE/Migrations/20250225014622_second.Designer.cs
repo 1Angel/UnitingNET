@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UnitingBE.Database;
 
@@ -11,9 +12,11 @@ using UnitingBE.Database;
 namespace UnitingBE.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250225014622_second")]
+    partial class second
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,7 +223,7 @@ namespace UnitingBE.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("UnitingBE.Entities.Comment", b =>
+            modelBuilder.Entity("UnitingBE.Entities.Comments", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -363,7 +366,7 @@ namespace UnitingBE.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("UnitingBE.Entities.Comment", b =>
+            modelBuilder.Entity("UnitingBE.Entities.Comments", b =>
                 {
                     b.HasOne("UnitingBE.Entities.AppUser", "user")
                         .WithMany("comments")
