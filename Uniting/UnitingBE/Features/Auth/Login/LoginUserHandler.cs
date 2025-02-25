@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
+using UnitingBE.Dtos.Auth;
 using UnitingBE.Entities;
 using UnitingBE.Infrastructure.Services;
 
@@ -32,7 +33,7 @@ namespace UnitingBE.Features.Auth.Login
 
             var token = await _jwtService.GenerateToken(user);
 
-            return Results.Ok(token);
+            return Results.Ok(new AuthResponseDto(user.Id, user.Email, token));
         }
     }
 }

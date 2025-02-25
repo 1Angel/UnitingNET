@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UnitingBE.Common;
 using UnitingBE.Dtos.Communities;
@@ -18,6 +19,7 @@ namespace UnitingBE.Features.Communities
             this.mediator = mediator;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IResult> Create([FromBody] CreateCommunityRequest createCommunityRequest)
         {
