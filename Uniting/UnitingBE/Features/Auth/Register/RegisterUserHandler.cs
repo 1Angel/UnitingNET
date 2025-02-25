@@ -2,7 +2,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using UnitingBE.Dtos.Auth;
 using UnitingBE.Entities;
+using UnitingBE.Infrastructure.Services;
 
 namespace UnitingBE.Features.Auth.Register
 {
@@ -12,12 +14,14 @@ namespace UnitingBE.Features.Auth.Register
         private readonly RoleManager<IdentityRole> _roleManager;
 
         private readonly IValidator<RegisterUserRequest> _validator;
+        private readonly JwtService _jwtService;
 
-        public RegisterUserHandler(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IValidator<RegisterUserRequest> validator)
+        public RegisterUserHandler(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IValidator<RegisterUserRequest> validator, JwtService jwtService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _validator = validator;
+            _jwtService = jwtService;
         }
 
         public async Task<IResult> Handle(RegisterUserRequest request, CancellationToken cancellationToken)
@@ -50,7 +54,10 @@ namespace UnitingBE.Features.Auth.Register
             {
                 return Results.BadRequest(create.Errors.ToList());
             }
-            return Results.Ok(create.Succeeded);
+
+            var token = await _jwtService.GenerateToken(newUser);
+
+            return Results.Ok(new AuthResponseDto(newUser.Id, newUser.Email, token));
         }
     }
 }
