@@ -12,6 +12,7 @@ public class AppDBContext: IdentityDbContext<AppUser>
     public DbSet<Community> communities { get; set; }
     public DbSet<Post> posts { get; set; }
     public DbSet<Comment> comments { get; set; }
+    public DbSet<Bookmarks> bookmarks { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -32,6 +33,12 @@ public class AppDBContext: IdentityDbContext<AppUser>
         builder.Entity<Comment>()
             .HasOne(x=>x.user)
             .WithMany(x=>x.comments)
+            .HasForeignKey(x=>x.AppUserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<Bookmarks>()
+            .HasOne(x=>x.user)
+            .WithMany(x=>x.bookmarks)
             .HasForeignKey(x=>x.AppUserId)
             .OnDelete(DeleteBehavior.NoAction);
             
