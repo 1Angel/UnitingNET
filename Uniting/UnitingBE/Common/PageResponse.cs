@@ -1,6 +1,6 @@
 ﻿namespace UnitingBE.Common
 {
-    public class PageResponse<T>
+    public class PageResponse<T> where T : class
     {
         public int pageNumber { get; set; } = 1;
         public int pageSize { get; set; } = 10;

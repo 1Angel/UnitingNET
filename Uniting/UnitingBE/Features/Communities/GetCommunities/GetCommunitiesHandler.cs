@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using UnitingBE.Common;
 using UnitingBE.Database;
 
@@ -18,6 +19,12 @@ namespace UnitingBE.Features.Communities.GetCommunities
         public async Task<PageResponse<List<AllCommunitiesResponse>>> Handle(AllCommunitiesRequest request, CancellationToken cancellationToken)
         {
             var queryable = _context.communities.AsQueryable();
+
+            if (!string.IsNullOrEmpty(request.searchTerm))
+            {
+                queryable = queryable.Where(x=>x.Name.Contains(request.searchTerm));
+            }
+
 
             var communities = await queryable
                 .AsNoTracking()
