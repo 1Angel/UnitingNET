@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UnitingBE.Common;
+using UnitingBE.Features.Auth.GetBookmarksByUser;
 using UnitingBE.Features.Auth.Login;
 using UnitingBE.Features.Auth.Register;
 
@@ -31,6 +32,15 @@ namespace UnitingBE.Features.Auth
         {
             var result = await _mediator.Send(request);
             return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("bookmarks")]
+        public async Task<IResult> GetBookmarksByUser()
+        {
+
+            var result = await _mediator.Send(new GetBookmarksByUserRequest(_currentUser.GetUserId()));
+            return result;
         }
 
         [Authorize]
