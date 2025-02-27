@@ -6,6 +6,7 @@ using UnitingBE.Dtos.Communities;
 using UnitingBE.Features.Communities.CreateCommunity;
 using UnitingBE.Features.Communities.GetCommunities;
 using UnitingBE.Features.Communities.GetCommunityById;
+using UnitingBE.Features.Communities.GetFollowingsCommunity;
 
 namespace UnitingBE.Features.Communities
 {
@@ -14,9 +15,11 @@ namespace UnitingBE.Features.Communities
     public class CommunitiesController : ControllerBase
     {
         private readonly IMediator mediator;
-        public CommunitiesController(IMediator mediator)
+        private readonly CurrentUser currentUser;
+        public CommunitiesController(IMediator mediator, CurrentUser currentUser)
         {
             this.mediator = mediator;
+            this.currentUser = currentUser;
         }
 
         [Authorize]
@@ -39,6 +42,15 @@ namespace UnitingBE.Features.Communities
         {
             var request = new GetCommunityByIdRequest(communityId);
             var result = await mediator.Send(request);
+            return result;
+        }
+
+        [Authorize]
+        [HttpGet("followings")]
+        public async Task<IResult> GetFollowingsCommunitiesByUser()
+        {
+            var userId = currentUser.GetUserId();
+            var result = await mediator.Send(new GetFollowingsCommunitiesRequest(userId));
             return result;
         }
     }
