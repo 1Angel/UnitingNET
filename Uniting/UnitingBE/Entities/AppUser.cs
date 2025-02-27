@@ -9,5 +9,6 @@ namespace UnitingBE.Entities
         public List<Post> posts { get; set; }
         public List<Comment> comments { get; set; }
         public List<Bookmarks> bookmarks { get; set; }
+        public List<CommunitiesFollowed> communitiesFollowed { get; set; }
     }
 }
