@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using UnitingBE.Dtos.Communities;
 using UnitingBE.Dtos.Posts;
 using UnitingBE.Entities;
 
@@ -9,6 +10,8 @@ namespace UnitingBE.Mappers
         public PostsMapper()
         {
             CreateMap<Post, PostResponseDto>();
+
+            CreateMap<Post, UserFeedResponseDto>();
         }
     }
 }
