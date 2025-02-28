@@ -75,6 +75,20 @@ builder.Services.AddScoped<IValidator<CreateCommentRequest>, CreateCommentValida
 SeedRoles.SeedRole(builder.Services.BuildServiceProvider()).Wait();
 SeedAdminUser.SeedAmin(builder.Services.BuildServiceProvider()).Wait();
 
+//cors
+builder.Services.AddCors(corsOptions =>
+{
+    corsOptions.AddPolicy("Angular-frontend", options =>
+    {
+        options
+        .WithOrigins("*")
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -89,7 +103,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
+
+app.UseCors("Angular-frontend");
 
 app.UseAuthentication();
 
