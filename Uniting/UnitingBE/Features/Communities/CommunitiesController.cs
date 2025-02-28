@@ -10,6 +10,9 @@ using UnitingBE.Features.Communities.GetCommunityById;
 =======
 using UnitingBE.Features.Communities.GetFollowingsCommunity;
 using UnitingBE.Features.Communities.GetUserFeed;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
 namespace UnitingBE.Features.Communities
