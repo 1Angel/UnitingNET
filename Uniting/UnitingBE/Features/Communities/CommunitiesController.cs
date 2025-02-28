@@ -8,7 +8,6 @@ using UnitingBE.Features.Communities.GetCommunities;
 using UnitingBE.Features.Communities.GetCommunityById;
 using UnitingBE.Features.Communities.GetFollowingsCommunity;
 
-using UnitingBE.Features.Communities.GetFollowingsCommunity;
 using UnitingBE.Features.Communities.GetUserFeed;
 
 
