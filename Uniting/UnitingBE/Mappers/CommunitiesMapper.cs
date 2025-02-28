@@ -18,6 +18,8 @@ namespace UnitingBE.Mappers
             CreateMap<Community, CommunityResponse>();
 
             CreateMap<Community, CommunityResponseDto>();
+
+            CreateMap<Community, CommunitiesDto>();
         }
     }
 }

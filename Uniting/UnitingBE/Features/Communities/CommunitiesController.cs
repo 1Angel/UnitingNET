@@ -6,6 +6,11 @@ using UnitingBE.Dtos.Communities;
 using UnitingBE.Features.Communities.CreateCommunity;
 using UnitingBE.Features.Communities.GetCommunities;
 using UnitingBE.Features.Communities.GetCommunityById;
+<<<<<<< Updated upstream
+=======
+using UnitingBE.Features.Communities.GetFollowingsCommunity;
+using UnitingBE.Features.Communities.GetUserFeed;
+>>>>>>> Stashed changes
 
 namespace UnitingBE.Features.Communities
 {
@@ -13,24 +18,26 @@ namespace UnitingBE.Features.Communities
     [ApiController]
     public class CommunitiesController : ControllerBase
     {
-        private readonly IMediator mediator;
-        public CommunitiesController(IMediator mediator)
+        private readonly IMediator _mediator;
+        private readonly CurrentUser currentUser;
+        public CommunitiesController(IMediator mediator, CurrentUser currentUser)
         {
-            this.mediator = mediator;
+            this._mediator = mediator;
+            this.currentUser = currentUser;
         }
 
         [Authorize]
         [HttpPost]
         public async Task<IResult> Create([FromBody] CreateCommunityRequest createCommunityRequest)
         {
-            var result = await mediator.Send(createCommunityRequest);
+            var result = await _mediator.Send(createCommunityRequest);
             return result;
         }
 
         [HttpGet]
         public async Task<PageResponse<List<AllCommunitiesResponse>>> Get([FromQuery] AllCommunitiesRequest request)
         {
-            var result = await mediator.Send(request);
+            var result = await _mediator.Send(request);
             return result;
         }
 
@@ -38,7 +45,25 @@ namespace UnitingBE.Features.Communities
         public async Task<CommunityResponseDto> GetById([FromRoute] int communityId)
         {
             var request = new GetCommunityByIdRequest(communityId);
-            var result = await mediator.Send(request);
+            var result = await _mediator.Send(request);
+            return result;
+        }
+
+        [Authorize]
+        [HttpGet("followings")]
+        public async Task<IResult> GetFollowingsCommunitiesByUser()
+        {
+            var userId = currentUser.GetUserId();
+            var result = await _mediator.Send(new GetFollowingsCommunitiesRequest(userId));
+            return result;
+        }
+
+
+        [Authorize]
+        [HttpGet("feed")]
+        public async Task<IResult> GetUserFeed()
+        {
+            var result = await _mediator.Send(new GetUserFeedRequest(currentUser.GetUserId()));
             return result;
         }
     }
