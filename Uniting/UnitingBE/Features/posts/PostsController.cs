@@ -1,9 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UnitingBE.Common;
 using UnitingBE.Dtos.Posts;
 using UnitingBE.Features.posts.CreatePost;
 using UnitingBE.Features.posts.DeletePost;
+using UnitingBE.Features.posts.GetAllCommunityPosts;
 using UnitingBE.Features.posts.GetPostById;
 
 namespace UnitingBE.Features.posts
@@ -28,8 +30,16 @@ namespace UnitingBE.Features.posts
             return Ok(result);
         }
 
+        [HttpGet("posts")]
+        public async Task<IResult> Get([FromQuery] GetAllCommunityPostsRequest request, [FromRoute] int communityId)
+        {
+            request.communityId = communityId;
+            var result = await _mediator.Send(new GetAllCommunityPostsRequest(request));
+            return result;
+        }
+
         [HttpGet("posts/{postId:int}")]
-        public async Task<PostResponseDto> GetById([FromRoute] int postId)
+        public async Task<ResponseDto<PostResponseDto>> GetById([FromRoute] int postId)
         {
             var result = await _mediator.Send(new GetPostByIdRequest(postId));
             return result;
