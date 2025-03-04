@@ -31,10 +31,10 @@ namespace UnitingBE.Features.posts
         }
 
         [HttpGet("posts")]
-        public async Task<IResult> Get([FromQuery] GetAllCommunityPostsRequest request, [FromRoute] int communityId)
+        public async Task<PageResponse<List<ResponseDto<PostResponseDto>>>> Get([FromRoute] int communityId, [FromQuery] GetAllCommunityPostsRequest request)
         {
             request.communityId = communityId;
-            var result = await _mediator.Send(new GetAllCommunityPostsRequest(request));
+            var result = await _mediator.Send(request);
             return result;
         }
 

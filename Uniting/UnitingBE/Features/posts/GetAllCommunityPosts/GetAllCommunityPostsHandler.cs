@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using UnitingBE.Database;
 using UnitingBE.Common;
 using UnitingBE.Dtos.Posts;
+using UnitingBE.Dtos.Auth;
 
 namespace UnitingBE.Features.posts.GetAllCommunityPosts
 {
-    public class GetAllCommunityPostsHandler : IRequestHandler<GetAllCommunityPostsRequest, IResult>
+    public class GetAllCommunityPostsHandler : IRequestHandler<GetAllCommunityPostsRequest, PageResponse<List<ResponseDto<PostResponseDto>>>>
     {
         private readonly AppDBContext _context;
         private readonly IMapper _mapper;
@@ -16,18 +17,31 @@ namespace UnitingBE.Features.posts.GetAllCommunityPosts
             _context = context;
             _mapper = mapper;
         }
-        public async Task<IResult> Handle(GetAllCommunityPostsRequest request, CancellationToken cancellationToken)
+        public async Task<PageResponse<List<ResponseDto<PostResponseDto>>>> Handle(GetAllCommunityPostsRequest request, CancellationToken cancellationToken)
         {
-            var posts = await _context.posts
-                .Include(x=>x.comments)
+            var queryable = _context.posts.AsQueryable();
+
+            //if (!String.IsNullOrEmpty(request.searchTerm))
+            //{
+            //    queryable = await queryable.Where(x=>x.description.Contains(request.searchTerm)).ToListAsync();
+            //}
+
+
+            var posts = await queryable
                 .Where(x => x.CommunityId == request.communityId)
-                .Select(x=> new ResponseDto<PostResponseDto>
+                .Select(x => new ResponseDto<PostResponseDto>
                 {
-                    data = new PostResponseDto
+                    PostInfo = new PostResponseDto
                     {
                         Id = x.Id,
                         description = x.description,
                         createdDate = x.createdDate,
+                        user = new UserDto
+                        {
+                            Id = x.user.Id,
+                            Email = x.user.Email,
+                            userName = x.user.UserName,
+                        }
                     },
                     TotalBookmarks = x.bookmarks.Count(),
                     TotalComments = x.comments.Count(),
@@ -36,7 +50,12 @@ namespace UnitingBE.Features.posts.GetAllCommunityPosts
                 .Take(request.pageSize)
                 .ToListAsync();
 
-            return Results.Ok(posts);
+            var totalCount =  await queryable.CountAsync();
+
+            return new PageResponse<List<ResponseDto<PostResponseDto>>>(request.pageNumber,
+                                                                  request.pageSize,
+                                                                  totalCount,
+                                                                  posts);
 
             //var result = _mapper.Map<PostResponseDto>(posts);
             //return Results.Ok(new ResponseDto<PostResponseDto>(result)
