@@ -15,7 +15,7 @@ export class ExplorePageComponent implements OnInit{
   ngOnInit(): void {
     this.GetCommunities();
 
-    this.title.setTitle("Explore Communtiies - Uniting");
+    this.title.setTitle("Explore Communties - Uniting");
     this.meta.addTag({name: "og:title", content: "Explore Communities - Uniting"});
     this.meta.addTag({name: "description", content: "Communities explore"});
     this.meta.addTag({name: "og:description", content: "Communities explore"});
