@@ -10,5 +10,6 @@ namespace UnitingBE.Entities
         public List<Comment> comments { get; set; }
         public List<Bookmarks> bookmarks { get; set; }
         public List<CommunitiesFollowed> communitiesFollowed { get; set; }
+        public List<Favorites> favorites { get; set; }
     }
 }

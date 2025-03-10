@@ -45,7 +45,7 @@ namespace UnitingBE.Features.Auth
 
         [Authorize]
         [HttpGet("hola")]
-        public async Task<string> Hola()
+        public string Hola()
         {
             var userId = _currentUser.GetUserId();
             return $"hola si vez esto estas  autenticado tu id es {userId}";
@@ -53,7 +53,7 @@ namespace UnitingBE.Features.Auth
 
         [Authorize(Roles ="admin")]
         [HttpGet("admin")]
-        public async Task<string> AdminOnly()
+        public string AdminOnly()
         {
             return "si vez esto sos admin";
         }

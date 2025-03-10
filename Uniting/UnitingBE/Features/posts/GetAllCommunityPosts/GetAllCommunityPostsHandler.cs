@@ -43,6 +43,7 @@ namespace UnitingBE.Features.posts.GetAllCommunityPosts
                             userName = x.user.UserName,
                         }
                     },
+                    TotalFavorites = x.favorites.Count(),
                     TotalBookmarks = x.bookmarks.Count(),
                     TotalComments = x.comments.Count(),
                 })

@@ -15,6 +15,7 @@ namespace UnitingBE.Entities
         public AppUser user { get; set; }
         public List<Comment> comments { get; set; }
         public List<Bookmarks> bookmarks { get; set; }
+        public List<Favorites> favorites { get; set; }
         public DateTime createdDate { get; set; } = DateTime.Now;
     }
 }

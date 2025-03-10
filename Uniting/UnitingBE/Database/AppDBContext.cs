@@ -14,6 +14,7 @@ public class AppDBContext: IdentityDbContext<AppUser>
     public DbSet<Comment> comments { get; set; }
     public DbSet<Bookmarks> bookmarks { get; set; }
     public DbSet<CommunitiesFollowed> communitiesFolloweds { get; set; }
+    public DbSet<Favorites> favorites { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -49,7 +50,13 @@ public class AppDBContext: IdentityDbContext<AppUser>
            .WithMany(x => x.communitiesFollowed)
            .HasForeignKey(x => x.AppUserId)
            .OnDelete(DeleteBehavior.NoAction);
-            
+
+        builder.Entity<Favorites>()
+            .HasOne(x => x.user)
+            .WithMany(x => x.favorites)
+            .HasForeignKey(x => x.AppUserId)
+            .OnDelete(DeleteBehavior.NoAction);
+
 
         base.OnModelCreating(builder);
     }

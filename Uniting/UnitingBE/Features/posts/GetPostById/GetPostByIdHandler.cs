@@ -20,17 +20,15 @@ namespace UnitingBE.Features.posts.GetPostById
         {
             var post = await _context.posts
                 .Include(x=>x.user)
+                .Include(x=>x.favorites)
                 .Include(x => x.comments)
                 .Include(x=>x.bookmarks)
                 .ThenInclude(x => x.user)
                 .Where(x => x.Id == request.postId)
                 .FirstOrDefaultAsync();
 
-            var totalComments = post.comments.Count();
-            var totalBookmarks = post.bookmarks.Count();
-
             var result =  _mapper.Map<PostResponseDto>(post);
-            return new ResponseDto<PostResponseDto>(result, totalComments, totalBookmarks);
+            return new ResponseDto<PostResponseDto>(result,  post.favorites.Count, post.comments.Count, post.bookmarks.Count);
 
         }
     }
