@@ -1,18 +1,24 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, Inject, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { AuthResponse } from '../models/AuthResponse-interface';
 import { map, Observable } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  constructor(@Inject(PLATFORM_ID) platformid: Object){
+    this.isBrowser = isPlatformBrowser(platformid);
+  }
+
   private readonly http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
 
-  private readonly isAuthenticated = signal<boolean>(false);
+  isBrowser:boolean;
+  public readonly isAuthenticated = signal<boolean>(false);
   public readonly isLoggedIn = computed(()=> this.isAuthenticated());
 
   Login(email: string, password: string){
@@ -34,11 +40,12 @@ export class AuthService {
 
 
   GetLocalStorageInfo(){
-    if (typeof window !== 'undefined') {
-      var userinfo =localStorage.getItem("userData");
-      if(userinfo){
-        this.isAuthenticated.update(()=>true);
+    if(this.isBrowser){
+      var data = JSON.parse(localStorage.getItem("userData")!);
+      if(data){
+        this.isAuthenticated.set(true)
       }
+      return data;  
     }
   }
 }
