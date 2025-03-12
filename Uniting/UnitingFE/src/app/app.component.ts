@@ -10,9 +10,10 @@ import { NavBarComponent } from "./components/nav-bar/nav-bar.component";
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'UnitingFE';
 
-  readonly authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
+
+  title = 'UnitingFE';
 
   constructor(){
     effect(()=>{
