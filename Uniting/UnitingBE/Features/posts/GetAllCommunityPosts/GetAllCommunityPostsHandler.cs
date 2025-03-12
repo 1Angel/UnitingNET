@@ -26,7 +26,6 @@ namespace UnitingBE.Features.posts.GetAllCommunityPosts
             //    queryable = await queryable.Where(x=>x.description.Contains(request.searchTerm)).ToListAsync();
             //}
 
-
             var posts = await queryable
                 .Where(x => x.CommunityId == request.communityId)
                 .Select(x => new ResponseDto<PostResponseDto>

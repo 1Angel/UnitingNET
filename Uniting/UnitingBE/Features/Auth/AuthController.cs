@@ -28,10 +28,10 @@ namespace UnitingBE.Features.Auth
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] LoginUserRequest request)
+        public async Task<IResult> Login([FromBody] LoginUserRequest request)
         {
             var result = await _mediator.Send(request);
-            return Ok(result);
+            return result;
         }
 
         [Authorize]

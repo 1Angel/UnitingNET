@@ -1,9 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import {ReactiveFormsModule, FormBuilder, Validators, FormGroup} from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
+import { AuthService } from '../../core/Services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
@@ -19,5 +22,29 @@ export class LoginPageComponent implements OnInit{
 
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
+  private readonly fb = inject(FormBuilder);
+
+  private readonly service = inject(AuthService);
+  private readonly router = inject(Router);
+
+  readonly errorMessage = signal<string>('');
+
+  loginForm = this.fb.nonNullable.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.maxLength(15), Validators.min(4)]]
+  });
+
+
+  LoginUser(form: FormGroup){
+    const {email, password} = form.value;
+    if(!form.invalid){
+      this.service.Login(email, password).subscribe({
+        next:() => this.router.navigateByUrl('/'),
+        error(err) {
+          
+        },
+      })
+    }
+  }
 
 }

@@ -11,19 +11,25 @@ namespace UnitingBE.Features.Communities.GetCommunityById
     {
         private readonly AppDBContext _context;
         private readonly IMapper _mapper;
-        public GetCommunityByIdHandler(AppDBContext context, IMapper mapper)
+        private readonly CurrentUser _currentUser;
+        public GetCommunityByIdHandler(AppDBContext context, IMapper mapper, CurrentUser currentUser)
         {
             _context = context;
             _mapper = mapper;
+            _currentUser = currentUser;
         }
 
         public async Task<CommunityResponseDto> Handle(GetCommunityByIdRequest request, CancellationToken cancellationToken)
         {
+
+            var isUserFollowing = await _context.communitiesFolloweds.Where(x=>x.CommunityId == request.communityId && x.AppUserId == _currentUser.GetUserId()).AnyAsync();
+
             var community = await _context.communities
                 .Include(x=>x.user)
                 .Where(x => x.Id == request.communityId)
                 .FirstOrDefaultAsync();
             var result =  _mapper.Map<CommunityResponseDto>(community);
+            result.isUserFollowing = isUserFollowing;
             return result;  
         }
     }

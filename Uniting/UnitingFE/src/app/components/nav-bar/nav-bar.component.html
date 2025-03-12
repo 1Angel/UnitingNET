@@ -10,15 +10,32 @@
 
 
         <div class="flex justify-between items-center">
-            <div>
-                <a class="text-cyan-300 px-3 py-2 font-medium text-sm rounded-3xl hover:bg-cyan-700 hover:text-white" routerLink="/auth/login">Login</a>
-            </div>
-            <div>
-                <a class="px-3 py-2 text-cyan-300 rounded-3xl text-sm font-medium hover:bg-cyan-700 hover:text-white" routerLink="/auth/register">Register</a>
-            </div>
-            <button class="rounded-full mx-2 pt-2 pb-2">
-                <img class="rounded-full size-10" src="https://elcomercio.pe/resizer/AB93Kg1JoITGLMLkCgLBnVzg_7g=/980x528/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/37OWRM2CLBAE7BP5SXKLVMNHZE.jpg">
-            </button>
+            @if(!isAuth()){
+                <div>
+                    <a class="text-cyan-300 px-3 py-2 font-medium text-sm rounded-3xl hover:bg-cyan-700 hover:text-white" routerLink="/auth/login">Login</a>
+                </div>
+                <div>
+                    <a class="px-3 py-2 text-cyan-300 rounded-3xl text-sm font-medium hover:bg-cyan-700 hover:text-white" routerLink="/auth/register">Register</a>
+                </div>
+            }@else{
+                <div>
+                    <button (click)="toggleIsOpen()" class="block rounded-full mx-2 pt-2 pb-2 cursor-pointer focus:border-white">
+                        <img class="rounded-full size-10 object-cover" src="https://elcomercio.pe/resizer/AB93Kg1JoITGLMLkCgLBnVzg_7g=/980x528/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/37OWRM2CLBAE7BP5SXKLVMNHZE.jpg">
+                        
+                    </button>   
+                        <div class="relative">
+                            @if(isOpenDropDown()){
+                                <div class="w-48 bg-white shadow-2xl rounded-lg absolute right-0">
+                                    <a class="block px-3 py-2 rounded-lg text-gray-800 hover:text-cyan-700" href="">Profile</a>
+                                    <form action="">
+                                        <a class="block px-3 py-2 text-gray-800 hover:text-cyan-700" href="" (click)="Logout()">Logout</a>
+                                    </form>
+                                </div>
+                            }
+                        </div>
+                </div>
+            
+        }
         </div>
     </div>
 

@@ -11,13 +11,17 @@ namespace UnitingBE.Features.posts.GetPostById
     {
         private readonly AppDBContext _context;
         private readonly IMapper _mapper;
-        public GetPostByIdHandler(AppDBContext context, IMapper mapper)
+        private readonly CurrentUser _currentUser;
+        public GetPostByIdHandler(AppDBContext context, IMapper mapper, CurrentUser currentUser)
         {
             _context = context;
             _mapper = mapper;
+            _currentUser = currentUser;
         }
         public async Task<ResponseDto<PostResponseDto>> Handle(GetPostByIdRequest request, CancellationToken cancellationToken)
         {
+
+            var isFavoritedByUser = await _context.favorites.Where(x=>x.PostId == request.postId && x.AppUserId == _currentUser.GetUserId()).AnyAsync();
             var post = await _context.posts
                 .Include(x=>x.user)
                 .Include(x=>x.favorites)
@@ -28,7 +32,7 @@ namespace UnitingBE.Features.posts.GetPostById
                 .FirstOrDefaultAsync();
 
             var result =  _mapper.Map<PostResponseDto>(post);
-            return new ResponseDto<PostResponseDto>(result,  post.favorites.Count, post.comments.Count, post.bookmarks.Count);
+            return new ResponseDto<PostResponseDto>(result,  isFavoritedByUser, post.favorites.Count, post.comments.Count, post.bookmarks.Count);
 
         }
     }

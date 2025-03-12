@@ -3,6 +3,7 @@
     public class ResponseDto<T> where T : class
     {
         public T PostInfo { get; set; }
+        public bool? isFavoriteByUser { get; set; }
         public int TotalFavorites { get; set; }
         public int TotalComments { get; set; }
         public int TotalBookmarks { get; set; }
@@ -12,12 +13,15 @@
             
         }
 
-        public ResponseDto(T data, int totalFavorites, int totalComments, int totalBookmarks)
+        public ResponseDto(T postInfo, bool? isFavoriteByUser, int totalFavorites, int totalComments, int totalBookmarks)
         {
-            this.PostInfo = data;
+            PostInfo = postInfo;
+            this.isFavoriteByUser = isFavoriteByUser;
             TotalFavorites = totalFavorites;
             TotalComments = totalComments;
             TotalBookmarks = totalBookmarks;
         }
+
+
     }
 }
