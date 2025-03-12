@@ -12,17 +12,9 @@ import { AuthService } from './core/Services/auth.service';
 })
 export class AppComponent {
 
-  constructor(){
-    effect(()=>{
-      this.authService.GetLocalStorageInfo()
-    })
-  }
-
   private readonly authService = inject(AuthService);
 
   title = 'UnitingFE';
-
-  readonly authService = inject(AuthService);
 
   constructor(){
     effect(()=>{
