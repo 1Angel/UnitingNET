@@ -18,12 +18,12 @@ export const routes: Routes = [
             {
                 path: 'login',
                 loadComponent: ()=> import('./pages/login-page/login-page.component').then(x=>x.LoginPageComponent),
-                canActivate: [userIsAuthGuard]
+                //canActivate: [userIsAuthGuard]
             },
             {
                 path: 'register',
                 loadComponent: ()=> import('./pages/register-page/register-page.component').then(x=>x.RegisterPageComponent),
-                canActivate: [userIsAuthGuard]
+                //canActivate: [userIsAuthGuard]
             },
             {
                 path: 'profile',

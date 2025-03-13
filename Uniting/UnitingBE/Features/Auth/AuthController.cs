@@ -21,10 +21,10 @@ namespace UnitingBE.Features.Auth
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> Register([FromBody] RegisterUserRequest registerUser)
+        public async Task<IResult> Register([FromBody] RegisterUserRequest registerUser)
         {
             var result = await _mediator.Send(registerUser);
-            return Ok(result);  
+            return result; 
         }
 
         [HttpPost("login")]

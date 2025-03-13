@@ -29,7 +29,7 @@ namespace UnitingBE.Features.posts.DeletePost
             }
             else
             {
-                return Results.Forbid();
+                return Results.Unauthorized();
             }
         }
     }

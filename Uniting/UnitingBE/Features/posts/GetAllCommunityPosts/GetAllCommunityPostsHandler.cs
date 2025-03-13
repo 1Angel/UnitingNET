@@ -12,10 +12,12 @@ namespace UnitingBE.Features.posts.GetAllCommunityPosts
     {
         private readonly AppDBContext _context;
         private readonly IMapper _mapper;
-        public GetAllCommunityPostsHandler(AppDBContext context, IMapper mapper)
+        private readonly CurrentUser _currentUser;
+        public GetAllCommunityPostsHandler(AppDBContext context, IMapper mapper, CurrentUser currentUser)
         {
             _context = context;
             _mapper = mapper;
+            _currentUser = currentUser;
         }
         public async Task<PageResponse<List<ResponseDto<PostResponseDto>>>> Handle(GetAllCommunityPostsRequest request, CancellationToken cancellationToken)
         {
@@ -40,8 +42,10 @@ namespace UnitingBE.Features.posts.GetAllCommunityPosts
                             Id = x.user.Id,
                             Email = x.user.Email,
                             userName = x.user.UserName,
-                        }
+                        },
+                        
                     },
+                    userCreated = x.AppUserId == _currentUser.GetUserId(),
                     TotalFavorites = x.favorites.Count(),
                     TotalBookmarks = x.bookmarks.Count(),
                     TotalComments = x.comments.Count(),

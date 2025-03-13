@@ -11,7 +11,6 @@ namespace UnitingBE.Mappers
     {
         public CommunitiesMapper()
         {
-            CreateMap<Community, AllCommunitiesResponse>();
 
             CreateMap<Community, AllCommunitiesRequest>();
 

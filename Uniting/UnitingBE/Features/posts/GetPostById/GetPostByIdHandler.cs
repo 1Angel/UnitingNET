@@ -31,8 +31,10 @@ namespace UnitingBE.Features.posts.GetPostById
                 .Where(x => x.Id == request.postId)
                 .FirstOrDefaultAsync();
 
+            var isUserCreator = post?.AppUserId == _currentUser?.GetUserId();
+
             var result =  _mapper.Map<PostResponseDto>(post);
-            return new ResponseDto<PostResponseDto>(result,  isFavoritedByUser, post.favorites.Count, post.comments.Count, post.bookmarks.Count);
+            return new ResponseDto<PostResponseDto>(result,  isFavoritedByUser, isUserCreator, post.favorites.Count, post.comments.Count, post.bookmarks.Count);
 
         }
     }

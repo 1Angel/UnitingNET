@@ -35,7 +35,7 @@ namespace UnitingBE.Features.Communities
         }
 
         [HttpGet]
-        public async Task<PageResponse<List<AllCommunitiesResponse>>> Get([FromQuery] AllCommunitiesRequest request)
+        public async Task<PageResponse<List<CommunityResponseDto>>> Get([FromQuery] AllCommunitiesRequest request)
         {
             var result = await _mediator.Send(request);
             return result;

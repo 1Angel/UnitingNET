@@ -13,6 +13,6 @@ export class CommunitiesService {
   private readonly ApiUrl = environment.apiUrl;
 
   GetCommunities(): Observable<Response>{
-    return this.http.get<Response>(`${this.ApiUrl}/communities?pageNumber=1&pageSize=2`);
+    return this.http.get<Response>(`${this.ApiUrl}/communities?pageNumber=1&pageSize=3`);
   }
 }

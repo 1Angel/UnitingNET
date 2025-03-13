@@ -1,22 +1,24 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using UnitingBE.Common;
 using UnitingBE.Database;
+using UnitingBE.Dtos.Communities;
 
 namespace UnitingBE.Features.Communities.GetCommunities
 {
-    public class GetCommunitiesHandler : IRequestHandler<AllCommunitiesRequest, PageResponse<List<AllCommunitiesResponse>>>
+    public class GetCommunitiesHandler : IRequestHandler<AllCommunitiesRequest, PageResponse<List<CommunityResponseDto>>>
     {
         private readonly AppDBContext _context;
         private readonly IMapper _mapper;
-        public GetCommunitiesHandler(AppDBContext context, IMapper mapper)
+        private readonly CurrentUser _currentUser;
+        public GetCommunitiesHandler(AppDBContext context, IMapper mapper, CurrentUser currentUser)
         {
             _context = context;
             _mapper = mapper;
+            _currentUser = currentUser;
         }
-        public async Task<PageResponse<List<AllCommunitiesResponse>>> Handle(AllCommunitiesRequest request, CancellationToken cancellationToken)
+        public async Task<PageResponse<List<CommunityResponseDto>>> Handle(AllCommunitiesRequest request, CancellationToken cancellationToken)
         {
             var queryable = _context.communities.AsQueryable();
 
@@ -28,15 +30,23 @@ namespace UnitingBE.Features.Communities.GetCommunities
 
             var communities = await queryable
                 .AsNoTracking()
+                .Select(x=> new CommunityResponseDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    isUserFollowing = x.followed.Any(x=>x.AppUserId == _currentUser.GetUserId()),
+                    totalMembers = x.followed.Where(f=>f.CommunityId == x.Id).Count(),
+                    createdDate = x.createdDate,
+                })
                 .Skip((request.pageNumber -1) * request.pageSize)
                 .Take(request.pageSize)
                 .ToListAsync();
 
             var totalCount = await queryable.CountAsync();
 
-            var result = _mapper.Map<List<AllCommunitiesResponse>>(communities);
 
-            return new PageResponse<List<AllCommunitiesResponse>>(request.pageNumber, request.pageSize, totalCount, result);
+            return new PageResponse<List<CommunityResponseDto>>(request.pageNumber,request.pageSize, totalCount, communities);
         }
     }
 }

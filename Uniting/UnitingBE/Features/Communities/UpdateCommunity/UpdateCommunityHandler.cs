@@ -20,7 +20,7 @@ namespace UnitingBE.Features.Communities.UpdateCommunity
             var communityId = await _context.communities.Where(x => x.Id == request.communityId).FirstOrDefaultAsync();
             if(communityId.AppUserId == _currentUser.GetUserId())
             {
-                return Results.Forbid();
+                return Results.Unauthorized();
             }
     
             communityId.Name = request.Name;

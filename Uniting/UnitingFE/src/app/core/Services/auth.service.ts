@@ -21,25 +21,36 @@ export class AuthService {
   public readonly isAuthenticated = signal<boolean>(false);
   public readonly isLoggedIn = computed(()=> this.isAuthenticated());
 
-  Login(email: string, password: string){
+  Login(email: string, password: string)
+  {
     return this.http.post<AuthResponse>(`${this.apiUrl}/auth/login`, {email, password}).pipe(map(response=>{
       this.SetCrendetials(response);
     }));
   }
 
+  Register(username: string, email: string, password: string)
+  {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/auth/register`, {username, email, password})
+    .pipe(map(response=>{
+      this.SetCrendetials(response);
+    }));
+  }
 
-  LogOut(){
+  LogOut()
+  {
     localStorage.removeItem("userData");
     this.isAuthenticated.update(()=>false);
   }
 
-  SetCrendetials(userData: AuthResponse){
+  SetCrendetials(userData: AuthResponse)
+  {
     localStorage.setItem("userData", JSON.stringify(userData));
     this.isAuthenticated.set(true);
   };
 
 
-  GetLocalStorageInfo(){
+ GetLocalStorageInfo()
+ {
     if(this.isBrowser){
       var data = JSON.parse(localStorage.getItem("userData")!);
       if(data){

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { Communities } from '../../core/models/Communities-response.interface';
 
 @Component({
   selector: 'app-communities-list',
@@ -8,4 +9,5 @@ import { Component } from '@angular/core';
 })
 export class CommunitiesListComponent {
 
+  communities = input<Communities>();
 }

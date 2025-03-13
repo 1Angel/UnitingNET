@@ -30,6 +30,7 @@ namespace UnitingBE.Features.Communities.GetCommunityById
                 .FirstOrDefaultAsync();
             var result =  _mapper.Map<CommunityResponseDto>(community);
             result.isUserFollowing = isUserFollowing;
+            result.totalMembers = await _context.communitiesFolloweds.Where(x => x.CommunityId == community.Id).CountAsync();
             return result;  
         }
     }
