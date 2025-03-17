@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import httpClient from '@/apiConfig/AxiosConfig';
-import type { AuthResponse } from '@/Models/AuthResponse-interface';
+import type { AuthResponse } from '@/types/AuthResponse';
 
 const email = ref('');
 const password = ref('');

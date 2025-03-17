@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CommunitiesList from '@/components/CommunitiesList.vue';
-import type { Communities, Response } from '@/Models/Communities-interface';
+import type { Communities, Response } from '@/types/Communities';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 

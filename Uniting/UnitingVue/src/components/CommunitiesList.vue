@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Communities } from '@/Models/Communities-interface';
+import type { Communities } from '@/types/Communities';
 import { computed } from 'vue';
 
 defineProps<{
