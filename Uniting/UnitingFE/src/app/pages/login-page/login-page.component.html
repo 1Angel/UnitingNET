@@ -4,7 +4,7 @@
         <form [formGroup]="loginForm" (ngSubmit)="LoginUser(loginForm)">
             <div class="mb-6">
                 <label class="font-medium">Email</label>
-                <input class="block shadow border rounded font-medium w-full px-3 py-2" placeholder="Email" type="email" formControlName="email"/>
+                <input class="block shadow border rounded font-medium w-full px-3 py-2 w-full" placeholder="Email" type="email" formControlName="email"/>
                 @if(loginForm.controls["email"].getError('required') && loginForm.controls["email"].touched){
                     <span class="text-red-500">Login is Required</span>
                 }
