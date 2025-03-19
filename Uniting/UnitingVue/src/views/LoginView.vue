@@ -26,17 +26,18 @@ async function login() {
 
 <template>
     <div class="flex justify-center mb-50">
-        <div class="p-6 mt-6 w-90 bg-white rounded shadow-2xl">
-            <p class="mb-6 text-purple-700 text-3xl">Login</p>
+        <div class="p-6 mt-6 w-90 bg-black rounded border-white border-1 shadow-2xl">
+            <p class="mb-2 text-purple-700 text-3xl">Login</p>
+            <h6 class="text-white mb-4">Welcome</h6>
             <form @submit.prevent="login()">
                 <div class="mb-6">
-                    <label class="font-medium">Email</label>
-                    <input class="block shadow border rounded font-medium w-full py-2 px-3" placeholder="Email"
+                    <label class="font-medium text-white">Email</label>
+                    <input class="block shadow border border-white rounded font-medium w-full py-2 px-3 text-gray-200" placeholder="Email"
                         v-model="email" type="email" />
                 </div>
                 <div class="mb-6">
-                    <label class="font-medium">Password</label>
-                    <input class="block shadow rounded border px-3 py-2 font-medium w-full" placeholder="Password"
+                    <label class="font-medium text-white">Password</label>
+                    <input class="block shadow rounded border border-white px-3 py-2 font-medium w-full text-gray-200" placeholder="Password"
                         v-model="password" type="password" />
                 </div>
                 <div class="mb-6">

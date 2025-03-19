@@ -15,14 +15,9 @@ const formatDate = computed(() => Intl.DateTimeFormat('en',
 </script>
 
 <template>
-    <div class="bg-white mx-10 rounded-2xl shadow-2xl px-2 py-2 mb-2 cursor-pointer">
-        <h1 class="text-blue-600 font-bold">
-            <RouterLink :to="{ name: 'communityDetails', params: { id: community.id } }">
-                {{ community.name.toUpperCase() }}
-            </RouterLink>
-        </h1>
-        <p>{{ community.description }}</p>
-        <h6>Created date: {{ formatDate }}</h6>
+    <div class="border-b-1 border-white">
+        <h3 class="text-white text-2xl font-medium">{{ community.name }}</h3>
+        <p class="text-white">{{ community.description }}</p>
+        <h6 class="text-white">{{ formatDate }}</h6>
     </div>
-
 </template>

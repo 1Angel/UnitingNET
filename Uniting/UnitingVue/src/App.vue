@@ -4,9 +4,11 @@ import NavBar from './components/NavBar.vue';
 </script>
 
 <template>
-  <NavBar />
-  <div class="bg-gray-100 pb-10">
-    <RouterView />
+ <NavBar/>
+ <div class="bg-black">
+  <div class="mx-10">
+    <RouterView/>
   </div>
+ </div>
 
 </template>
