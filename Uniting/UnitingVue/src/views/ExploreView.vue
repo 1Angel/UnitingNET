@@ -21,10 +21,10 @@ async function GetCommunities() {
 </script>
 
 <template>
-    <p>Explore communities</p>
-    <ul>
-        <li v-for="i in communities" :key="i.id">
-            <CommunitiesList :community="i" />
-        </li>
-    </ul>
+<div>
+    <p class="text-white">Explore Communities</p>
+    <div v-for="i in communities" :key="i.id">
+        <CommunitiesList :community="i"/>
+    </div>
+</div>
 </template>
