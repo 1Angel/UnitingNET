@@ -1,22 +1,29 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import httpClient from '@/apiConfig/AxiosConfig';
-import type { AuthResponse } from '@/types/AuthResponse';
+import { reactive, ref } from 'vue';
+import { AuthService } from '@/services/AuthService';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import { useCounterStore } from '@/stores/counter';
 
-const email = ref('');
-const password = ref('');
+const store = useAuthStore();
+const counter = useCounterStore();
+const router = useRouter();
+
 const errorMessage = ref('');
 
+const loginForm = reactive({
+    email: '',
+    password: ''
+});
 
-async function login() {
+function login() {
 
-    return await httpClient.post<AuthResponse>('/auth/login', {
-        email: email.value,
-        password: password.value
-    }).then(response => {
-        console.log(response.data.access_Token)
-    }).catch(err => {
-        console.log(err)
+    AuthService.LoginUser(loginForm.email, loginForm.password)
+    .then(response => {
+        store.setAuthentication(response.data);
+        router.push('/')
+    }).catch(err=>{
+        console.log(err.response.data);
     })
 
 }
@@ -32,13 +39,13 @@ async function login() {
             <form @submit.prevent="login()">
                 <div class="mb-6">
                     <label class="font-medium text-white">Email</label>
-                    <input class="block shadow border border-white rounded font-medium w-full py-2 px-3 text-gray-200" placeholder="Email"
-                        v-model="email" type="email" />
+                    <input class="block shadow border border-white rounded font-medium w-full py-2 px-3 text-gray-200"
+                        placeholder="Email" v-model="loginForm.email" type="email" />
                 </div>
                 <div class="mb-6">
                     <label class="font-medium text-white">Password</label>
-                    <input class="block shadow rounded border border-white px-3 py-2 font-medium w-full text-gray-200" placeholder="Password"
-                        v-model="password" type="password" />
+                    <input class="block shadow rounded border border-white px-3 py-2 font-medium w-full text-gray-200"
+                        placeholder="Password" v-model="loginForm.password" type="password" />
                 </div>
                 <div class="mb-6">
                     <button

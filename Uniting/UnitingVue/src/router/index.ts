@@ -15,6 +15,11 @@ const router = createRouter({
       name: 'explore',
     },
     {
+      path: '/blogs',
+      component: ()=> import('../views/BlogView.vue'),
+      name: 'blogs'
+    },
+    {
       path: '/community/:id',
       component: () => import('../views/CommunityDetailsView.vue'),
       name: 'communityDetails',
