@@ -24,6 +24,7 @@ function login() {
         router.push('/')
     }).catch(err=>{
         console.log(err.response.data);
+        errorMessage.value = err.response.data;
     })
 
 }
@@ -46,6 +47,9 @@ function login() {
                     <label class="font-medium text-white">Password</label>
                     <input class="block shadow rounded border border-white px-3 py-2 font-medium w-full text-gray-200"
                         placeholder="Password" v-model="loginForm.password" type="password" />
+                </div>
+                <div class="mb-6" v-if="errorMessage.length">
+                    <span class="text-red-600">{{ errorMessage }}</span>
                 </div>
                 <div class="mb-6">
                     <button

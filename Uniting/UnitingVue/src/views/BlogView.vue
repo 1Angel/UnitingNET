@@ -1,3 +1,3 @@
 <template>
-    <p>Dev blogs</p>
+    <p class="text-white">Dev blogs</p>
 </template>

@@ -2,14 +2,19 @@
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 
 const isOpen = ref<boolean>(false);
 
-
 const store = useAuthStore();
-
+const router = useRouter();
 const {isLoggedIn} =  storeToRefs(store);
+
+function LogOut(){
+    store.LogOut();
+    router.push('/')
+}
+
 
 
 </script>
@@ -23,7 +28,7 @@ const {isLoggedIn} =  storeToRefs(store);
                     <RouterLink class="text-white" :to="{name: 'home'}">Logo here</RouterLink>
                 </div>
                 <div class="m-1">
-                    <RouterLink to="/blog" class="text-white mx-4">
+                    <RouterLink to="/auth/login" class="text-white mx-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6 inline-flex">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -79,8 +84,8 @@ const {isLoggedIn} =  storeToRefs(store);
                             v-if="isOpen">
                             <RouterLink class="block px-3 py-2 rounded-lg text-white hover:text-purple-700" href=""
                                 to="/auth/profile">Profile</RouterLink>
-                            <form action="">
-                                <a class="block px-3 py-2 text-white hover:text-purple-700" href="">Logout</a>
+                            <form @submit="LogOut">
+                                <button class="block px-3 py-2 text-white cursor-pointer hover:text-gray-400" type="submit">Logout</button>
                             </form>
                         </div>
                     </div>

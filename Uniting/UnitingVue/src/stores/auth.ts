@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
 export const useAuthStore = defineStore('auth', () => {
-    const isAuth = ref(false);
+    const isAuth = ref<boolean>(false);
 
     const isLoggedIn = computed(()=> isAuth.value == true);
 
@@ -14,7 +14,12 @@ export const useAuthStore = defineStore('auth', () => {
         console.log(isAuth.value);
     }
 
-    return {isAuth, isLoggedIn, setAuthentication}
+    function LogOut(){
+        localStorage.clear();
+        isAuth.value = false;
+    }
+
+    return {isAuth, isLoggedIn, setAuthentication, LogOut}
 
   })
   
