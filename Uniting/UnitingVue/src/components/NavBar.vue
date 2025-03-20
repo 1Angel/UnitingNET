@@ -1,8 +1,17 @@
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth';
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
-const isOpen = ref<boolean>(false)
+const isOpen = ref<boolean>(false);
+
+
+const store = useAuthStore();
+
+const {isLoggedIn} =  storeToRefs(store);
+
+
 </script>
 
 <template>
@@ -11,7 +20,7 @@ const isOpen = ref<boolean>(false)
         <div class="p-1 flex justify-between items-center">
             <div class="p-1 flex justify-between items-center">
                 <div class="mx-4">
-                    <a class="text-white">Logo here</a>
+                    <RouterLink class="text-white" :to="{name: 'home'}">Logo here</RouterLink>
                 </div>
                 <div class="m-1">
                     <RouterLink to="/blog" class="text-white mx-4">
@@ -48,22 +57,23 @@ const isOpen = ref<boolean>(false)
 
             <!--authentication-->
             <div class="flex justify-between items-center">
-                <div>
+                <div v-if="!isLoggedIn">
                     <RouterLink
                         class="text-black bg-white px-3 py-2 font-medium text-sm rounded-3xl hover:bg-purple-700 hover:text-white"
                         to="/auth/login">Login</RouterLink>
                 </div>
-                <div>
+                <div v-if="!isLoggedIn">
                     <RouterLink
                         class="px-3 py-2 text-white rounded-3xl text-sm font-medium hover:bg-purple-700 hover:text-white"
                         to="/auth/register">Register</RouterLink>
                 </div>
-                <div>
+                <div v-else>
                     <button class="block rounded-full mx-2 pt-2 pb-2 cursor-pointer focus:border-white"
                         @click="isOpen = !isOpen">
                         <img class="rounded-full size-10 object-cover"
                             src="https://elcomercio.pe/resizer/AB93Kg1JoITGLMLkCgLBnVzg_7g=/980x528/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/37OWRM2CLBAE7BP5SXKLVMNHZE.jpg" />
                     </button>
+                    <!--dropdown-->
                     <div class="relative">
                         <div class="w-48 bg-black border-white border-1 shadow-2xl rounded-lg absolute right-0"
                             v-if="isOpen">

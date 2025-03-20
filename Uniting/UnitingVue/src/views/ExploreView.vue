@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import CommunitiesList from '@/components/CommunitiesList.vue';
+import ContentContainer from '@/components/Content-Container.vue';
+import TrendingTags from '@/components/TrendingTags.vue';
 import type { Communities, Response } from '@/types/Communities';
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
@@ -19,12 +21,24 @@ async function GetCommunities() {
 }
 
 </script>
-
 <template>
-<div>
-    <p class="text-white">Explore Communities</p>
-    <div v-for="i in communities" :key="i.id">
-        <CommunitiesList :community="i"/>
+    <div class="flex justify-center bg-black min-h-screen text-white">
+      <div class="flex w-full max-w-6xl">
+        <!-- Contenido principal: Lista de elementos -->
+        <div class="w-2/3 space-y-6">
+          <!-- Elemento de la lista -->
+          <div v-for="i in communities">
+            <!--lista de posts del usuario-->
+            <CommunitiesList :community="i"/>
+          </div>
+        </div>
+  
+        <!-- Sidebar -->
+        <div class="w-1/3 ml-6 space-y-6 mt-10">
+          <div class="bg-gray-900 p-4 rounded-lg">Últimas discusiones</div>
+          <div class="bg-gray-900 p-4 rounded-lg">Tags</div>
+          <div class="bg-gray-900 p-4 rounded-lg">Categorías</div>
+        </div>
+      </div>
     </div>
-</div>
-</template>
+  </template>
