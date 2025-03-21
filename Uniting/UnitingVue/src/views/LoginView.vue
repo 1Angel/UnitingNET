@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { AuthService, LoginUser } from '@/services/AuthService';
+import { LoginUser } from '@/services/AuthService';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-import { useCounterStore } from '@/stores/counter';
 
 const store = useAuthStore();
-const counter = useCounterStore();
 const router = useRouter();
 
 const errorMessage = ref('');
@@ -53,6 +51,9 @@ function login() {
                     <span class="text-red-600">{{ errorMessage }}</span>
                 </div>
                 <div class="mb-6">
+                    <RouterLink class="text-white italic" to="/auth/register">Dont have an account? Register here!</RouterLink>
+                </div>
+                <div class="mb-6 flex justify-center">
                     <button
                         class="px-4 py-2 bg-purple-700 text-white rounded-3xl hover:bg-white hover:text-purple-700 hover:border-purple-700 hover:border-1"
                         type="submit">Log

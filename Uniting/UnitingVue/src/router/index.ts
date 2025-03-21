@@ -18,8 +18,7 @@ const router = createRouter({
     {
       path: '/blogs',
       component: ()=> import('../views/BlogView.vue'),
-      name: 'blogs',
-      meta: {requiresAuth: true}
+      name: 'blogs'
     },
     {
       path: '/community/:id',

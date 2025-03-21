@@ -30,7 +30,7 @@ function LogOut(){
                     <RouterLink class="text-white" :to="{name: 'home'}">Logo here</RouterLink>
                 </div>
                 <div class="m-1">
-                    <RouterLink to="/auth/login" class="text-white mx-4">
+                    <RouterLink to="/blogs" class="text-white mx-4">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="size-6 inline-flex">
                             <path stroke-linecap="round" stroke-linejoin="round"
