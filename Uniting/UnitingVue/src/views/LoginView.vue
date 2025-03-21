@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { AuthService } from '@/services/AuthService';
+import { AuthService, LoginUser } from '@/services/AuthService';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { useCounterStore } from '@/stores/counter';
@@ -18,9 +18,10 @@ const loginForm = reactive({
 
 function login() {
 
-    AuthService.LoginUser(loginForm.email, loginForm.password)
+    LoginUser(loginForm.email, loginForm.password)
     .then(response => {
         store.setAuthentication(response.data);
+        store.FetchCurrentUser();
         router.push('/')
     }).catch(err=>{
         console.log(err.response.data);

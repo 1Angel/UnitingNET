@@ -1,9 +1,12 @@
+import { GetCurrentUser } from "@/services/AuthService";
 import type { AuthResponse } from "@/types/AuthResponse";
+import type { User } from "@/types/IUser";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
 export const useAuthStore = defineStore('auth', () => {
     const isAuth = ref<boolean>(false);
+    const currentUser = ref<User>();
 
     const isLoggedIn = computed(()=> isAuth.value == true);
 
@@ -11,7 +14,13 @@ export const useAuthStore = defineStore('auth', () => {
         localStorage.setItem("access_token", userData.access_Token);
         localStorage.setItem("userData", JSON.stringify(userData));
         isAuth.value = true;
-        console.log(isAuth.value);
+    }
+
+    function FetchCurrentUser(){
+        return GetCurrentUser().then(response=>{
+            currentUser.value = response.data;
+        });
+        
     }
 
     function LogOut(){
@@ -19,7 +28,7 @@ export const useAuthStore = defineStore('auth', () => {
         isAuth.value = false;
     }
 
-    return {isAuth, isLoggedIn, setAuthentication, LogOut}
+    return {isAuth, isLoggedIn, setAuthentication, LogOut, currentUser, FetchCurrentUser}
 
   })
   

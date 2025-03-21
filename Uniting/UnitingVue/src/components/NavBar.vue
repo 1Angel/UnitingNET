@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
 import { storeToRefs } from 'pinia';
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 
 const isOpen = ref<boolean>(false);
@@ -9,6 +9,8 @@ const isOpen = ref<boolean>(false);
 const store = useAuthStore();
 const router = useRouter();
 const {isLoggedIn} =  storeToRefs(store);
+
+const username = computed(()=> store.currentUser?.userName);
 
 function LogOut(){
     store.LogOut();
@@ -82,8 +84,8 @@ function LogOut(){
                     <div class="relative">
                         <div class="w-48 bg-black border-white border-1 shadow-2xl rounded-lg absolute right-0"
                             v-if="isOpen">
-                            <RouterLink class="block px-3 py-2 rounded-lg text-white hover:text-purple-700" href=""
-                                to="/auth/profile">Profile</RouterLink>
+                            <RouterLink class="block px-3 py-2 rounded-lg text-white hover:text-gray-400" href=""
+                                to="/auth/profile">{{ username }}</RouterLink>
                             <form @submit="LogOut">
                                 <button class="block px-3 py-2 text-white cursor-pointer hover:text-gray-400" type="submit">Logout</button>
                             </form>

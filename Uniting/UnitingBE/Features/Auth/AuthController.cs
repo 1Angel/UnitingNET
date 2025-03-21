@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UnitingBE.Common;
+using UnitingBE.Dtos.Auth;
 using UnitingBE.Features.Auth.GetBookmarksByUser;
+using UnitingBE.Features.Auth.GetCurrentUser;
 using UnitingBE.Features.Auth.Login;
 using UnitingBE.Features.Auth.Register;
 
@@ -41,6 +43,14 @@ namespace UnitingBE.Features.Auth
 
             var result = await _mediator.Send(new GetBookmarksByUserRequest(_currentUser.GetUserId()));
             return result;
+        }
+
+        [Authorize]
+        [HttpGet("current-user")]
+        public async Task<ActionResult<UserDto>> CurrentUser()
+        {
+            var result = await _mediator.Send(new GetCurrentUserRequest(_currentUser.GetUserId()));
+            return Ok(result);
         }
 
         [Authorize]
