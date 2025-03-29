@@ -61,8 +61,6 @@ namespace UnitingBE.Features.posts.GetAllCommunityPosts
                                                                   totalCount,
                                                                   posts);
 
-            //var result = _mapper.Map<PostResponseDto>(posts);
-            //return Results.Ok(new ResponseDto<PostResponseDto>(result)
         }
     }
 }

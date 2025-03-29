@@ -1,6 +1,6 @@
 import httpClient from "@/apiConfig/AxiosConfig";
 import type { AuthResponse } from "@/types/AuthResponse";
-import type { User } from "@/types/IUser";
+import type { IUser } from "@/types/IUser";
 import type { AxiosResponse } from "axios";
 
 
@@ -13,5 +13,5 @@ export const RegisterUser= async(username: string, email: string, password: stri
 }
 
 export const GetCurrentUser = async()=>{
-    return httpClient.get<User>('/auth/current-user');
+    return httpClient.get<IUser>('/auth/current-user');
 }

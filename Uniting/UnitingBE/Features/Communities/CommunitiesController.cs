@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UnitingBE.Common;
 using UnitingBE.Dtos.Communities;
+using UnitingBE.Dtos.Posts;
 using UnitingBE.Features.Communities.CreateCommunity;
 using UnitingBE.Features.Communities.GetCommunities;
 using UnitingBE.Features.Communities.GetCommunityById;
@@ -61,9 +62,9 @@ namespace UnitingBE.Features.Communities
 
         [Authorize]
         [HttpGet("feed")]
-        public async Task<IResult> GetUserFeed()
+        public async Task<PageResponse<List<PostResponseDto>>> GetUserFeed([FromQuery] int pageNumber,[FromQuery] int pageSize)
         {
-            var result = await _mediator.Send(new GetUserFeedRequest(currentUser.GetUserId()));
+            var result = await _mediator.Send(new GetUserFeedRequest(currentUser.GetUserId(), pageNumber, pageSize));
             return result;
         }
 

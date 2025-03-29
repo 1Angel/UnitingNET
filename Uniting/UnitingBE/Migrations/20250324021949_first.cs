@@ -178,6 +178,31 @@ namespace UnitingBE.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "communitiesFolloweds",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CommunityId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_communitiesFolloweds", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_communitiesFolloweds_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_communitiesFolloweds_communities_CommunityId",
+                        column: x => x.CommunityId,
+                        principalTable: "communities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "posts",
                 columns: table => new
                 {
@@ -200,6 +225,84 @@ namespace UnitingBE.Migrations
                         name: "FK_posts_communities_CommunityId",
                         column: x => x.CommunityId,
                         principalTable: "communities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "bookmarks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostId = table.Column<int>(type: "int", nullable: false),
+                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    createdDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_bookmarks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_bookmarks_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_bookmarks_posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    body = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostId = table.Column<int>(type: "int", nullable: false),
+                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    createdDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_comments_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_comments_posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "favorites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PostId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_favorites", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_favorites_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_favorites_posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -244,9 +347,49 @@ namespace UnitingBE.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_bookmarks_AppUserId",
+                table: "bookmarks",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_bookmarks_PostId",
+                table: "bookmarks",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_comments_AppUserId",
+                table: "comments",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_comments_PostId",
+                table: "comments",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_communities_AppUserId",
                 table: "communities",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_communitiesFolloweds_AppUserId",
+                table: "communitiesFolloweds",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_communitiesFolloweds_CommunityId",
+                table: "communitiesFolloweds",
+                column: "CommunityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_favorites_AppUserId",
+                table: "favorites",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_favorites_PostId",
+                table: "favorites",
+                column: "PostId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_posts_AppUserId",
@@ -278,10 +421,22 @@ namespace UnitingBE.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "posts");
+                name: "bookmarks");
+
+            migrationBuilder.DropTable(
+                name: "comments");
+
+            migrationBuilder.DropTable(
+                name: "communitiesFolloweds");
+
+            migrationBuilder.DropTable(
+                name: "favorites");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "posts");
 
             migrationBuilder.DropTable(
                 name: "communities");

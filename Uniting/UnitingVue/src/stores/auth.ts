@@ -1,12 +1,12 @@
 import { GetCurrentUser } from "@/services/AuthService";
 import type { AuthResponse } from "@/types/AuthResponse";
-import type { User } from "@/types/IUser";
+import type { IUser } from "@/types/IUser";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
 export const useAuthStore = defineStore('auth', () => {
     const isAuth = ref<boolean>(false);
-    const currentUser = ref<User>();
+    const currentUser = ref<IUser>();
 
     const isLoggedIn = computed(()=> isAuth.value == true);
 

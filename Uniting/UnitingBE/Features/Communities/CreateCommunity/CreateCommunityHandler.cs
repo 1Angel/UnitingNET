@@ -35,10 +35,8 @@ namespace UnitingBE.Features.Communities.CreateCommunity
                 AppUserId = _currentUser.GetUserId(),
             };
 
-            var result = _context.communities.AddAsync(newCommunity);
+            var result = await _context.communities.AddAsync(newCommunity);
             await _context.SaveChangesAsync();
-
-            var response = _mapper.Map<CreateCommunityResponse>(result.Result.Entity);
 
             return Results.Ok();
         }

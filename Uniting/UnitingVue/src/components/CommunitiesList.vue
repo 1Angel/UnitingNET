@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import type { Communities } from '@/types/Communities';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 
-defineProps<{
+const props = defineProps<{
     community: Communities
 }>();
 
-
-
-const formatDate = computed(() => Intl.DateTimeFormat('en',
-    { year: "numeric", month: "short", day: "numeric", hour: "numeric", minute: "numeric" }
-).format());
+const formatDate = computed(() => 
+Intl.DateTimeFormat("en-US", {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'})
+.format(new Date(props.community.createdDate)));
 
 </script>
 
@@ -19,6 +17,6 @@ const formatDate = computed(() => Intl.DateTimeFormat('en',
         <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/f37f760d-3fa0-482b-9609-453033822e5d-profile_image-70x70.png" class="rounded-full size-10 inline-flex m-1">
         <h3 class="text-white text-2xl font-medium inline-flex">{{ community.name }}</h3>
         <p class="text-white">{{ community.description }}.</p>
-        <h6 class="text-white">{{ formatDate }}</h6>
+        <span class="text-gray-400">{{ formatDate }}</span>
     </div>
 </template>

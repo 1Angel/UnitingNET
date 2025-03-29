@@ -13,6 +13,7 @@ namespace UnitingBE.Mappers
         {
 
             CreateMap<Community, AllCommunitiesRequest>();
+            CreateMap<Community, CreateCommunityResponse>();
 
             CreateMap<Community, CommunityResponse>();
 

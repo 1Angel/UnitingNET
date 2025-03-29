@@ -12,15 +12,15 @@ using UnitingBE.Database;
 namespace UnitingBE.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20250227011056_following-communities-added")]
-    partial class followingcommunitiesadded
+    [Migration("20250324021949_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.13")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -302,7 +302,31 @@ namespace UnitingBE.Migrations
 
                     b.HasIndex("CommunityId");
 
-                    b.ToTable("CommunitiesFollowed");
+                    b.ToTable("communitiesFolloweds");
+                });
+
+            modelBuilder.Entity("UnitingBE.Entities.Favorites", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AppUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("favorites");
                 });
 
             modelBuilder.Entity("UnitingBE.Entities.Post", b =>
@@ -474,6 +498,25 @@ namespace UnitingBE.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("UnitingBE.Entities.Favorites", b =>
+                {
+                    b.HasOne("UnitingBE.Entities.AppUser", "user")
+                        .WithMany("favorites")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("UnitingBE.Entities.Post", "post")
+                        .WithMany("favorites")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("post");
+
+                    b.Navigation("user");
+                });
+
             modelBuilder.Entity("UnitingBE.Entities.Post", b =>
                 {
                     b.HasOne("UnitingBE.Entities.AppUser", "user")
@@ -514,6 +557,8 @@ namespace UnitingBE.Migrations
 
                     b.Navigation("communitiesFollowed");
 
+                    b.Navigation("favorites");
+
                     b.Navigation("posts");
                 });
 
@@ -522,6 +567,8 @@ namespace UnitingBE.Migrations
                     b.Navigation("bookmarks");
 
                     b.Navigation("comments");
+
+                    b.Navigation("favorites");
                 });
 
             modelBuilder.Entity("UnitingBE.Features.Communities.Community", b =>
