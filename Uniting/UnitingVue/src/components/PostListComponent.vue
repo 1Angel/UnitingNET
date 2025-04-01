@@ -4,7 +4,6 @@ import { computed } from 'vue';
 
 const props = defineProps<{
     post: IPost,
-    showCommunity: boolean
 }>();
 
 const formattedDate = computed(()=> Intl.DateTimeFormat("en-US", { year: 'numeric', month: 'long',day: 'numeric', hour: 'numeric'}).format(new Date(props.post.createdDate)));

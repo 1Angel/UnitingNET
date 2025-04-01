@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import ButtonComponent from '@/components/ButtonComponent.vue';
+import CreatePostComponent from '@/components/CreatePostComponent.vue';
 import LoadingComponent from '@/components/LoadingComponent.vue';
 import PostListComponent from '@/components/PostListComponent.vue';
 import { GetCommunitiesPosts, getCommunityDetails } from '@/services/CommunitiesService';
 import { ToggleFollow } from '@/services/FollowingService';
+import { createPost } from '@/services/PostService';
 import { useAuthStore } from '@/stores/auth';
 import type { Posts } from '@/types/CommunityDetailsResponse';
 import type { ICommunity } from '@/types/ICommunity';
@@ -55,6 +57,13 @@ async function RedirectToLogin() {
     }
 }
 
+async function CreatePost(content: string | undefined) {
+    return createPost(Number(id), content).then((res)=>{
+        getPostsByCommunity();
+    })
+
+}
+
 onMounted(() => {
     getCommunity();
     getPostsByCommunity();
@@ -97,9 +106,10 @@ onMounted(() => {
     </div>
     
     <div class="flex justify-center">
-        <div>
+        <div class="border-1 rounded-3xl pt-4 border-white">
+            <CreatePostComponent v-show="isLoggedIn" @send="CreatePost($event)"/>
             <div v-for="i in posts" :key="i.postInfo.id" class="m-3 mt-0 w-200 bg-black rounded-3xl border-white border-1 shadow-2xl text-white">
-                <postList :post="i.postInfo" :show-community="false"/>
+                <postList :post="i.postInfo"/>
             </div>
         </div>
         </div>

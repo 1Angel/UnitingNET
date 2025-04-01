@@ -37,7 +37,7 @@ async function getUserFeed() {
       <div class="w-2/3 space-y-6" v-else>
         <!-- Elemento de la lista -->
          <div v-for="i in posts" :key="i.id">
-            <PostListComponent :post="i" :show-community="true"/>
+            <PostListComponent :post="i"/>
          </div>
           <!--lista de posts del usuario-->
 

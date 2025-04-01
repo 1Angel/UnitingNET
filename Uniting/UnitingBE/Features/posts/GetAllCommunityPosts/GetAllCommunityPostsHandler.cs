@@ -52,6 +52,7 @@ namespace UnitingBE.Features.posts.GetAllCommunityPosts
                 })
                 .Skip((request.pageNumber - 1) * request.pageSize)
                 .Take(request.pageSize)
+                .OrderByDescending(x=>x.PostInfo.createdDate)
                 .ToListAsync();
 
             var totalCount =  await queryable.CountAsync();
