@@ -107,7 +107,7 @@ onMounted(() => {
     
     <div class="flex justify-center">
         <div class="border-1 rounded-3xl pt-4 border-white">
-            <CreatePostComponent v-show="isLoggedIn" @send="CreatePost($event)"/>
+            <CreatePostComponent v-show="isLoggedIn" @send="CreatePost($event)" class="mx-3"/>
             <div v-for="i in posts" :key="i.postInfo.id" class="m-3 mt-0 w-200 bg-black rounded-3xl border-white border-1 shadow-2xl text-white">
                 <postList :post="i.postInfo"/>
             </div>
