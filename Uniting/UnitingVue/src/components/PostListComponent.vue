@@ -4,6 +4,7 @@ import { computed } from 'vue';
 
 const props = defineProps<{
     post: IPost,
+    showCommunity: boolean
 }>();
 
 const formattedDate = computed(()=> Intl.DateTimeFormat("en-US", { year: 'numeric', month: 'long',day: 'numeric', hour: 'numeric'}).format(new Date(props.post.createdDate)));
@@ -12,7 +13,7 @@ const formattedDate = computed(()=> Intl.DateTimeFormat("en-US", { year: 'numeri
 
 <template>
     <div class="bg-black p-4 border-1 rounded-2xl">
-        <!-- <RouterLink v-show="showCommunity" class="text-gray-200 underline block" :to="{name: 'communityDetails', params: {id: props.post.community.id}}">{{ props.post.community.name }}</RouterLink> -->
+        <RouterLink v-if="props.showCommunity " class="text-gray-200 underline block" :to="{name: 'communityDetails', params: {id: props.post.community.id}}">{{ props.post.community.name }}</RouterLink>
         <img class="size-10 rounded-full inline-flex"
             src="https://elcomercio.pe/resizer/AB93Kg1JoITGLMLkCgLBnVzg_7g=/980x528/smart/filters:format(jpeg):quality(75)/cloudfront-us-east-1.images.arcpublishing.com/elcomercio/37OWRM2CLBAE7BP5SXKLVMNHZE.jpg" />
         <h6 class="text-white inline-flex pb-5 pl-2">{{ props.post.user.userName }}</h6>

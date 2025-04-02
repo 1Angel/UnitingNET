@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import CreatePostComponent from '@/components/CreatePostComponent.vue';
-import LoadingComponent from '@/components/LoadingComponent.vue';
-import PostListComponent from '@/components/PostListComponent.vue';
+import PostListSkeletonLoaderComponent from '@/components/PostListSkeletonLoaderComponent.vue';
 import { GetCommunitiesPosts, getCommunityDetails } from '@/services/CommunitiesService';
 import { ToggleFollow } from '@/services/FollowingService';
 import { createPost } from '@/services/PostService';
@@ -27,10 +26,9 @@ const titleCase = computed(() => community.value?.name.toUpperCase());
 
 const postList = defineAsyncComponent({
     loader: ()=> import('../components/PostListComponent.vue'),
-    loadingComponent: LoadingComponent,
+    loadingComponent: PostListSkeletonLoaderComponent,
     delay:200,
-}
-);
+});
 
 async function getCommunity() {
     return getCommunityDetails(Number(id)).then(response => {
@@ -98,7 +96,7 @@ onMounted(() => {
 
             <!-- <img class="w-full h-40 rounded-2xl object-cover inline-flex" src="https://wallpaperaccess.com/full/6273968.jpg"> -->
             <img class="size-25 rounded-full inline-flex"
-                src="https://res.cloudinary.com/startup-grind/image/upload/c_fill,dpr_2.0,f_auto,g_center,h_1080,q_100,w_1080/v1/gcs/platform-data-dsc/events/spring-boot-1_5zDxm9B.jpg">
+                src="https://dominickm.com/wp-content/uploads/2016/06/spring-boot-logo_full.png">
             <h1 class="text-4xl inline-flex ml-2">{{ titleCase }}</h1>
             <p class="">{{ community?.description }}</p>
             <span class="mt-6 block">{{ community?.totalMembers }} Members</span>
@@ -109,7 +107,10 @@ onMounted(() => {
         <div class="border-1 rounded-3xl pt-4 border-white">
             <CreatePostComponent v-show="isLoggedIn" @send="CreatePost($event)" class="mx-3"/>
             <div v-for="i in posts" :key="i.postInfo.id" class="m-3 mt-0 w-200 bg-black rounded-3xl border-white border-1 shadow-2xl text-white">
-                <postList :post="i.postInfo"/>
+                <postList 
+                :post="i.postInfo"
+                :show-community="false"
+                />
             </div>
         </div>
         </div>
